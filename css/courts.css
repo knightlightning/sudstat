@@ -1,0 +1,45 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 17, 2017, 12:58:28 PM
+    Author     : kmironov
+*/
+
+.courts-panel {
+    position: relative;
+    top: 0;
+    left:auto;
+    float: left;
+    width: auto;
+    height: 100%;
+    background: #dddddd;
+    overflow-y: auto;
+    margin-bottom: 0;
+}
+
+.courts-panel > .panel {
+    border-radius: 0;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.courts-panel .panel .list-group-item {
+    border-radius: 0;
+    border-width: 1px 0 0 0;
+}
+
+/*.courts-panel > .panel > .list-group-item:first-child {
+    border-top-width: 0;
+}*/
+
+.courts-panel .list-group-item.small {
+    padding: 3px 0px 3px 34px;
+}
+
+.courts-panel .list-group-item .glyphicon {
+    margin-right: 5px;
+}

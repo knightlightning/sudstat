@@ -1,0 +1,57 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 18, 2017, 10:20:50 AM
+    Author     : kmironov
+*/
+
+body {
+    background: #dddddd;
+}
+
+html, body {
+    height: 100%;
+}
+
+.main-content {
+    padding: 0;
+    height: calc(100% - 50px);
+    width: 100%;
+    overflow: auto;
+}
+
+.stat-container {
+    position: relative;
+    top: 0;
+    left:auto;
+    float: left;
+    width: auto;
+    height: 100%;
+    background: #dddddd;
+    overflow-y: auto;
+    margin-bottom: 0;
+}
+
+.treeview .list-group {
+    margin: 0;
+}
+
+.treeview .list-group-item {
+    border-radius: 0;
+    border-width: 1px 0 0 0;
+}
+
+.details-container {
+    height: 100%;
+    overflow-y: hidden;
+    width: auto;
+    padding: 10px;
+}
+
+.details {
+    height: 100%;
+    width: 100%;
+}

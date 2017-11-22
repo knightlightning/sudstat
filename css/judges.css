@@ -1,0 +1,182 @@
+body {
+    background: #dddddd;
+}
+
+html, body {
+    height: 100%;
+}
+
+.main-content {
+    padding: 0;
+    height: calc(100% - 50px);
+}
+
+.avatar-popup {
+    display: block;
+    margin: auto;
+    max-width: 700px;
+}
+
+/*
+ * users panel
+ */
+
+.users-container {
+    position: relative;
+    top: 0;
+    left: auto;
+    float: left;
+    height: 100%;
+    overflow-y: auto;
+    width: auto;
+    padding: 10px 5px 10px 10px;
+    /*background: lightpink;*/
+}
+
+.users-panel {
+    max-height: 100%;
+    overflow-y: auto;
+    margin-bottom: 0;
+}
+
+.users-panel > .list-group-item {
+    border-radius: 0;
+    border-width: 1px 0 0 0;
+    max-width: 400px;
+}
+
+.judge-job-position {
+    margin: 0;
+}
+
+.users-panel > .list-group-item:first-child {
+    border-top-width: 0;
+}
+
+.users-panel .media-body {
+    width: auto;
+}
+
+.users-panel .media {
+    margin-top: 0;
+}
+
+.users-panel .mymedia-footer {
+    position: absolute;
+    bottom: 0px;
+}
+
+.users-panel .current-court {
+    background: white;
+    text-align: center;
+
+    font-weight: bold;
+}
+
+/*
+ * user details panel
+ */
+
+.user-details-container {
+
+    height: 100%;
+    overflow-y: auto;
+    width: auto;
+    padding: 10px 10px 10px 5px;
+    /*background: lightgreen;*/
+}
+
+.user-details {
+    position: relative;
+    float: left;
+    max-height: 100%;
+    width: calc(40% - 5px);
+    overflow-y: auto;
+    margin-right: 5px;
+    /*background: white;*/
+}
+
+table {
+    width: 100%;
+}
+
+td {
+    padding: 0 5px 0 5px;
+    background: white;
+    border-width: 0px 1px 0px 1px;
+    border-style: solid;
+    border-color: #dddddd;
+    border-collapse: collapse;
+}
+
+tbody tr {
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
+    border-color: #dddddd;
+    border-collapse: collapse;
+}
+
+tbody tr:last-child {
+    border-width: 0;
+}
+
+td:first-child {
+    border-left: 0px;
+}
+
+td:last-child {
+    border-right: 0px;
+}
+
+.title {
+    background: #337ab7;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+.space {
+    height: 5px;
+    background: transparent;
+}
+
+.user-details td:first-child,
+.subtitle-left {
+    font-weight: bold;
+}
+
+/*
+ * exp
+ */
+
+.user-exp-details {
+    position: relative;
+    float: left;
+    max-height: 100%;
+    overflow-y: auto;
+    width: calc(60% - 5px);
+    margin-left: 5px;
+
+}
+
+.subtitle-top {
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
+    border-color: #dddddd;
+    border-collapse: collapse;
+}
+
+.subtitle-top td {
+    text-align: center;
+    font-weight: bold;
+}
+
+#jobs tbody td:first-child,
+#jobs tbody td:nth-child(2) {
+    text-align: center;
+}
+
+.pdf-viewer {
+    width: 100%;
+    height: calc(100vh - 30px);
+}

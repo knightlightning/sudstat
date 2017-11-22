@@ -1,0 +1,124 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct 10, 2017, 5:24:31 PM
+    Author     : kmironov
+*/
+
+body {
+    background: #dddddd;
+}
+
+html, body {
+    height: 100%;
+}
+
+.main-content {
+    padding: 0;
+    height: calc(100% - 50px);
+    width: 100%;
+    overflow: auto;
+}
+
+.details-container {
+    height: 100%;
+    overflow-y: auto;
+    width: auto;
+    padding: 10px;
+    /*background: lightpink;*/
+}
+
+.details {
+    max-height: 100%;
+    width: auto;
+    overflow-y: auto;
+    /*background: lightcyan;*/
+}
+
+table {
+    border-collapse: collapse;
+    /*background: white;*/
+    overflow: auto;
+}
+
+th,
+td {
+    padding: 2px 10px;
+    border: 1px solid #dddddd;
+    text-align: center;
+    background: white;
+}
+
+thead th {
+    text-align: center;
+}
+
+/*tbody tr:nth-child(even) {
+    background: #f0f0f2;
+}*/
+
+tbody td:first-child {
+    /*font-weight: bold;*/
+    text-align: left;
+}
+
+tbody .subheader > td {
+    font-weight: bold;
+    background: transparent;
+    text-align: center;
+}
+
+tbody .summary > td {
+    font-weight: bold;
+}
+
+tbody .summary > td:first-child {
+    text-align: right;
+}
+
+.mymodal-content {
+    height: 100%;
+}
+
+#caption {
+    display: none;
+}
+
+/*
+.courts-panel {
+    float: left;
+    height: 100%;
+    overflow-y: auto;
+    margin-bottom: 0;
+}
+
+.courts-panel > .panel {
+    border-radius: 0;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.courts-panel .panel .list-group-item {
+    border-radius: 0;
+    border-width: 1px 0 0 0;
+}
+
+.courts-panel > .panel > .list-group-item:first-child {
+    border-top-width: 0;
+}
+
+.mydata-container {
+    height: 100%;
+    overflow-y: hidden;
+    padding-left: 5px;
+}
+
+.mydata {
+    height: 100%;
+    width: 100%;
+    background: lightpink;
+}*/
