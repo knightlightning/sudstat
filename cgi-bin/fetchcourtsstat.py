@@ -19,7 +19,7 @@ def my_handler(x):
         return x.__dict__
     return enum_handler(x)
 
-session = get_session('mysql://passport-admin:Selkit2@linux-test.omsksud.ru/sudstat?charset=utf8')
+session = get_session('mysql://passport-admin:Selkit2@localhost/sudstat?charset=utf8')
 
 stat = session.query(StatData).join(StatData.stat_type).order_by(StatData.year.desc())
 

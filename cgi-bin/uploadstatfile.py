@@ -20,7 +20,7 @@ year = data['year'].value
 quarter = data['quarter'].value
 myfile = data['file']
 
-session = get_session('mysql://passport-admin:Selkit2@linux-test.omsksud.ru/sudstat?charset=utf8')
+session = get_session('mysql://passport-admin:Selkit2@localhost/sudstat?charset=utf8')
 
 print("Content-type: text/html;charset=utf-8\n")
 

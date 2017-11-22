@@ -65,7 +65,7 @@ function fetchJudgesCharge(c, type) {
     data.append('court_id', c);
     data.append('charge_type', type);
     $.ajax({
-        url: '/cgi-bin/fetchjudgescharge.py',
+        url: '/cgi-bin/fetchchargestat.py',
         data: data,
         processData: false,
         contentType: false,
