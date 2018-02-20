@@ -12,7 +12,7 @@ import uuid
 from sqlalchemy import and_
 from sudstatdb import *
 
-file_path = '/usr/share/sudpass/resource/pdf'
+file_path = '/usr/share/sudstat/resource/pdf'
 
 data = cgi.FieldStorage()
 stat_type = data['stat_type'].value
