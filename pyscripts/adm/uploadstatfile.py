@@ -10,7 +10,9 @@ from os.path import splitext
 from os import remove
 import uuid
 from sqlalchemy import and_
-from sudstatdb import *
+import sys
+sys.path.append('/usr/share/sudstat')
+from pyscripts.sudstatdb import *
 
 file_path = '/usr/share/sudstat/resource/pdf'
 

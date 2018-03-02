@@ -1,0 +1,55 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 13, 2017, 11:43:42 AM
+    Author     : kmironov
+*/
+
+body {
+    background: #dddddd;
+}
+
+html, body {
+    height: 100%;
+}
+
+.main-content {
+    padding: 10px;
+    height: calc(100% - 50px);
+    width: 100%;
+    overflow: auto;
+    display: flex;
+  	flex-flow: column;
+}
+
+.myborder {
+	margin: 5px 0px 5px 0px;
+	border-color: gray;
+	border-width: 0px 0px 1px 0px;
+	border-style: solid;
+}
+
+.myheader {
+	flex: 0 1 auto;
+}
+
+.mylog {
+	flex: 1 1 auto;
+    overflow: auto;
+    padding: 10px;
+    background: white;
+}
+
+.sseinfo {
+	margin: 0;
+	white-space: nowrap;
+}
+
+.sseerror {
+	margin: 0;
+	color: red;
+	white-space: nowrap;
+}

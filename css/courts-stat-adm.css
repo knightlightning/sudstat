@@ -8,6 +8,10 @@ and open the template in the editor.
     Author     : kmironov
 */
 
+body {
+    background: #dddddd;
+}
+
 .main-content {
     padding: 20px;
     width: 50%;

@@ -8,14 +8,17 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+        <link rel="shortcut icon" type="image/png" href="/favicon.png"/>
 
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="/css/stat-upload.css">
+        <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+        <link rel="stylesheet" type="text/css" href="/css/courts-stat-adm.css">
 
         <title>Администрирование</title>
     </head>
     <body>
+        <?php include("navbar.php"); ?>
+        
         <div class="main-content container">
             <form class="form-horizontal" id="myForm">
                 <div class="form-group">
@@ -55,7 +58,7 @@ and open the template in the editor.
                 </div>
                 <div class="form-group"> 
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default" disabled>Загрузить</button>
+                        <button type="submit" class="btn btn-primary" disabled>Загрузить</button>
                     </div>
                 </div>
             </form>
@@ -63,6 +66,7 @@ and open the template in the editor.
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <script src="/js/stat-upload.js"></script>
+        <script src="/js/common.js"></script>
+        <script src="/js/courts-stat-adm.js"></script>
     </body>
 </html>

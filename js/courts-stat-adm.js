@@ -24,7 +24,7 @@ $(document).on('submit', '#myForm', function (event) {
     fd.append("quarter", $("#statQuarter").val());
     fd.append("file", $("#file").prop('files')[0]);
     $.ajax({
-        url: '/cgi-bin/uploadstatfile.py',
+        url: '/cgi-bin/adm/uploadstatfile.py',
         data: fd,
         processData: false,
         contentType: false,
