@@ -17,6 +17,5 @@ $(document).ready(function () {
 
 $(document).on('click', '#import', function () {
 	var argv = $('#statYear').val();
-	//console.log(argv);
 	runSSE('/cgi-bin/adm/importjudgesstat.py?' + argv);
 });
