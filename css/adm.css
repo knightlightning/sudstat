@@ -45,11 +45,17 @@ html, body {
 
 .sseinfo {
 	margin: 0;
-	white-space: nowrap;
+	/*white-space: nowrap;*/
+}
+
+.ssewarning {
+	margin: 0;
+	color: orange;
+	/*white-space: nowrap;*/
 }
 
 .sseerror {
 	margin: 0;
 	color: red;
-	white-space: nowrap;
+	/*white-space: nowrap;*/
 }

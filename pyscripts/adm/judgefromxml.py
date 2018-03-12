@@ -78,16 +78,16 @@ class JudgeFromXml:
         self.tree = lxml.etree.parse(file)
         
         self.person = self.getelement('/CARD/CADRE_PERSON')[0]
-        self.judgeid = getelementtext('./ISN_PERSON120', self.person)
-        for fio in self.getelementbyid(self.judgeid, '/CARD/CADRE_FIO/ISN_PERSON55'):
+        self.judgeid = getelementtext("*[starts-with(name(), 'ISN_PERSON')]", self.person)
+        for fio in self.getelementbyid(self.judgeid, "/CARD/CADRE_FIO/*[starts-with(name(), 'ISN_PERSON')]"):
             if getelementtext('./ISACTIVE', fio) == '1':
                 self.fio = fio
-        self.job = self.getelementbyid(self.judgeid, '/CARD/CADRE_WORK/ISN_PERSON174')[0]
+        self.job = self.getelementbyid(self.judgeid, "/CARD/CADRE_WORK/*[starts-with(name(), 'ISN_PERSON')]")[0]
 
     def get_surname(self):
         return getelementtext('./SURNAME', self.fio)
     def get_name(self):
-        return getelementtext('./NAME55', self.fio)
+        return getelementtext('./*[starts-with(name(), "NAME")]', self.fio)
     def get_patron(self):
         return getelementtext('./PATRON', self.fio)
     def get_birthdate(self):
@@ -96,94 +96,100 @@ class JudgeFromXml:
         return getelementtext('./BIRTHPLACE', self.person)
     def get_citizenship(self):
         return self.getelementtextbyid(id = getelementtext('./ISN_CITIZENSHIP_CL', self.person),
-                                       idpath = '/CARD/CADRE_CITIZENSHIP_CL/ISN_NODE17',
-                                       elementname = 'CLASSIF_NAME17')[0] if getelement('./ISN_CITIZENSHIP_CL', self.person) else None
+                                       idpath = "/CARD/CADRE_CITIZENSHIP_CL/*[starts-with(name(), 'ISN_NODE')]",
+                                       elementname = "*[starts-with(name(), 'CLASSIF_NAME')]")[0] if getelement('./ISN_CITIZENSHIP_CL', self.person) else None
     
     def get_job_name(self):
         return self.getelementtextbyid(id = getelementtext('./ISN_ORGANIZATION_CL', self.person),
-                                        idpath = '/CARD/CADRE_ORGANIZATION_CL/ISN_NODE114',
-                                        elementname = 'CLASSIF_NAME114')[0]
+                                        idpath = "/CARD/CADRE_ORGANIZATION_CL/*[starts-with(name(), 'ISN_NODE')]",
+                                        elementname = "*[starts-with(name(), 'CLASSIF_NAME')]")[0]
     def get_job_acceptance_date(self):
         return element2date('ACCEPTANCE_DATE', self.job)
     
     def get_job_position(self):
-        for w in sorted(self.tree.xpath('/CARD/CADRE_DISPLACEMENT[ISN_WORK42="{}"][ISN_PERSON42="{}"]'.format(getelementtext('./ISN_WORK174', self.job), self.judgeid)),
+#        for w in sorted(self.tree.xpath("/CARD/CADRE_DISPLACEMENT/*[name()='ISN_WORK42' and text()='{}'][ISN_PERSON42='{}']".format(getelementtext('./ISN_WORK174', self.job), self.judgeid)),
+        job_id = getelementtext('./*[starts-with(name(), "ISN_WORK")]', self.job)
+        for w in sorted(self.tree.xpath("/CARD/CADRE_DISPLACEMENT[./*[starts-with(name(), 'ISN_WORK') and text()='{}']]\
+                                        [./*[starts-with(name(), 'ISN_PERSON') and text()='{}']]".format(job_id, self.judgeid)),
                 key=partial(element2date, 'ASSIGNMENT_START_DATE'),
                 reverse=True):
-            return self.getelementtextbyid(getelementtext('ISN_STAFF', w), '/CARD/CADRE_STAFF/ISN_NODE154', 'OFFICE_SHORT')[0]
+            return self.getelementtextbyid(getelementtext('ISN_STAFF', w), '/CARD/CADRE_STAFF/*[starts-with(name(), "ISN_NODE")]', 'OFFICE_SHORT')[0]
     
     def get_judge_exp(self):
         _id = self.getelementtextbyid(id = 'стаж работы в должности судьи',
-                                      idpath = '/CARD/CADRE_KINDSENIORITY_CL/CLASSIF_NAME70',
-                                      elementname = 'ISN_NODE70')
+                                      idpath = '/CARD/CADRE_KINDSENIORITY_CL/*[starts-with(name(), "CLASSIF_NAME")]',
+                                      elementname = '*[starts-with(name(), "ISN_NODE")]')
         if not _id:
             _id = self.getelementtextbyid(id = 'стаж работы в качестве судьи',
-                                          idpath = '/CARD/CADRE_KINDSENIORITY_CL/CLASSIF_NAME70',
-                                          elementname = 'ISN_NODE70')
-        exp = self.tree.xpath('/CARD/CADRE_AMOUNTSENIORITY[ISN_KINDSENIORITY_CL="{}"][ISN_PERSON8="{}"]'.format(_id[0], self.judgeid))
+                                          idpath = '/CARD/CADRE_KINDSENIORITY_CL/*[starts-with(name(), "CLASSIF_NAME")]',
+                                          elementname = '*[starts-with(name(), "ISN_NODE")]')
+        exp = self.tree.xpath('/CARD/CADRE_AMOUNTSENIORITY[ISN_KINDSENIORITY_CL="{}"]\
+                                [./*[starts-with(name(), "ISN_PERSON") and text()="{}"]]'.format(_id[0], self.judgeid))
         return Exp(getelementtext('./AMOUNTYEAR', exp[0]), getelementtext('./AMOUNTMONTH', exp[0]), getelementtext('./AMOUNTDAY', exp[0])) if exp else Exp(0, 0, 0)
 
     def get_law_exp(self):
         _id = self.getelementtextbyid(id = 'стаж работы в области юриспруденции',
-                                      idpath = '/CARD/CADRE_KINDSENIORITY_CL/CLASSIF_NAME70',
-                                      elementname = 'ISN_NODE70')[0]
-        exp = self.tree.xpath('/CARD/CADRE_AMOUNTSENIORITY[ISN_KINDSENIORITY_CL="{}"][ISN_PERSON8="{}"]'.format(_id, self.judgeid))
+                                      idpath = '/CARD/CADRE_KINDSENIORITY_CL/*[starts-with(name(), "CLASSIF_NAME")]',
+                                      elementname = '*[starts-with(name(), "ISN_NODE")]')
+        exp = self.tree.xpath('/CARD/CADRE_AMOUNTSENIORITY[ISN_KINDSENIORITY_CL="{}"]\
+                                [./*[starts-with(name(), "ISN_PERSON") and text()="{}"]]'.format(_id[0], self.judgeid))
         return Exp(getelementtext('./AMOUNTYEAR', exp[0]), getelementtext('./AMOUNTMONTH', exp[0]), getelementtext('./AMOUNTDAY', exp[0])) if exp else Exp(0, 0, 0)
 
     def get_degrees(self):
-        return [Degree(getelementtext('./CLASSIF_NAME3', self.getelementbyid(getelementtext('./ISN_ACADEMICDEGREE_CL', d), '/CARD/CADRE_ACADEMICDEGREE_CL/ISN_NODE3')[0]),
+        return [Degree(getelementtext('./*[starts-with(name(), "CLASSIF_NAME")]', self.getelementbyid(getelementtext('./ISN_ACADEMICDEGREE_CL', d), '/CARD/CADRE_ACADEMICDEGREE_CL/*[starts-with(name(), "ISN_NODE")]')[0]),
                        getelementtext('ORDER_WHOM', d) if getelement('ORDER_WHOM', d) else None,
                        element2date('ORDER_DATE', d))
-                 for d in sorted(self.getelementbyid(self.judgeid, '/CARD/CADRE_ACADEMICDEGREE/ISN_PERSON2'), key=partial(element2date, 'ORDER_DATE'))]
+                 for d in sorted(self.getelementbyid(self.judgeid, '/CARD/CADRE_ACADEMICDEGREE/*[starts-with(name(), "ISN_PERSON")]'), key=partial(element2date, 'ORDER_DATE'))]
 
     def get_awards(self):
-        return [Award(getelementtext('./CLASSIF_NAME58', self.getelementbyid(getelementtext('./ISN_GOVERNMENTAWARD_CL', a), '/CARD/CADRE_GOVERNMENTAWARD_CL/ISN_NODE58')[0]),
-                      getelementtext('./CLASSIF_NAME16', self.getelementbyid(getelementtext('./ISN_CERTIFICATE_CL', a), '/CARD/CADRE_CERTIFICATE_CL/ISN_NODE16')[0]) if getelement('./ISN_CERTIFICATE_CL', a) else None,
+        return [Award(getelementtext('./*[starts-with(name(), "CLASSIF_NAME")]', self.getelementbyid(getelementtext('./ISN_GOVERNMENTAWARD_CL', a), '/CARD/CADRE_GOVERNMENTAWARD_CL/*[starts-with(name(), "ISN_NODE")]')[0]),
+                      getelementtext('./*[starts-with(name(), "CLASSIF_NAME")]', self.getelementbyid(getelementtext('./ISN_CERTIFICATE_CL', a), '/CARD/CADRE_CERTIFICATE_CL/*[starts-with(name(), "ISN_NODE")]')[0]) if getelement('./ISN_CERTIFICATE_CL', a) else None,
                       getelementtext('ORDER_NUMBER', a) if getelement('ORDER_NUMBER', a) else getelementtext('DOCREASON_NUMBER', a),
                       element2date('ORDER_DATE', a) if getelement('ORDER_DATE', a) else element2date('DOCREASON_DATE', a))
-                for a in self.getelementbyid(self.judgeid, '/CARD/CADRE_GOVERNMENTAWARD/ISN_PERSON57')]
+                for a in self.getelementbyid(self.judgeid, '/CARD/CADRE_GOVERNMENTAWARD/*[starts-with(name(), "ISN_PERSON")]')]
                 #for a in sorted(self.getelementbyid(self.judgeid, '/CARD/CADRE_GOVERNMENTAWARD/ISN_PERSON57'), key=partial(element2date, 'ORDER_DATE'))]
         
     def get_educations(self):
         return [Education(getelementtext('TITLE', e),
                            self.getelementtextbyid(id = getelementtext('ISN_RECEIVEDEDUCATION_CL', e),
-                                                idpath =  '/CARD/CADRE_RECEIVEDEDUCATION_CL/ISN_NODE132',
-                                                elementname = 'CLASSIF_NAME132')[0] if getelement('ISN_RECEIVEDEDUCATION_CL', e) else None,
+                                                idpath =  '/CARD/CADRE_RECEIVEDEDUCATION_CL/*[starts-with(name(), "ISN_NODE")]',
+                                                elementname = '*[starts-with(name(), "CLASSIF_NAME")]')[0] if getelement('ISN_RECEIVEDEDUCATION_CL', e) else None,
                            element2date('DIPLOMA_DATE', e) if getelement('DIPLOMA_DATE', e) else element2date('GRADUATION_DATE', e),
                            getelementtext('SPECIALIZATION', e) if getelement('SPECIALIZATION', e) else None,
                            getelementtext('QUALIFICATION', e) if getelement('QUALIFICATION', e) else None)
-                for e in self.getelementbyid(self.judgeid, '/CARD/CADRE_EDUCATION/ISN_PERSON46')]
+                for e in self.getelementbyid(self.judgeid, '/CARD/CADRE_EDUCATION/*[starts-with(name(), "ISN_PERSON")]')]
                 #for e in sorted(self.getelementbyid(self.judgeid, '/CARD/CADRE_EDUCATION/ISN_PERSON46'), key=partial(element2date, 'EDUCATION_BEGIN_DATE'))]
     
     def get_qualifier_class(self):
-        for q in sorted(self.getelementbyid(self.judgeid, '/CARD/CADRE_QUALIFIERCLASS/ISN_PERSON126'), key=partial(element2date, 'CLASS_DATE'), reverse=True):
+        for q in sorted(self.getelementbyid(self.judgeid, '/CARD/CADRE_QUALIFIERCLASS/*[starts-with(name(), "ISN_PERSON")]'), key=partial(element2date, 'CLASS_DATE'), reverse=True):
             return QC(self.getelementtextbyid(id = getelementtext('ISN_QUALIFIERCLASS_CL', q),
-                                            idpath = '/CARD/CADRE_QUALIFIERCLASS_CL/ISN_NODE127',
-                                            elementname = 'CLASSIF_NAME127')[0],
+                                            idpath = '/CARD/CADRE_QUALIFIERCLASS_CL/*[starts-with(name(), "ISN_NODE")]',
+                                            elementname = '*[starts-with(name(), "CLASSIF_NAME")]')[0],
                       element2date('CLASS_DATE', q),
                       getelementtext('REASON', q))
         return QC(None, None, None)
     
     def get_prev_assignment(self):
-        for q in sorted(self.getelementbyid(self.judgeid, '/CARD/CADRE_DISPLACEMENT/ISN_PERSON42'), key=partial(element2date, 'ASSIGNMENT_START_DATE'), reverse=True):
+        for q in sorted(self.getelementbyid(self.judgeid, '/CARD/CADRE_DISPLACEMENT/*[starts-with(name(), "ISN_PERSON")]'), key=partial(element2date, 'ASSIGNMENT_START_DATE'), reverse=True):
             return Assignment(element2date('ASSIGNMENT_START_DATE', q),
                               getelementtext('ASSIGNMENT', q))
 
     def get_job_history(self):
-        job_place = self.getelementbyid(id = getelementtext('./ISN_ORGANIZATION_CL', self.person), idpath = '/CARD/CADRE_ORGANIZATION_CL/ISN_NODE114')[0]
+        job_place = self.getelementbyid(id = getelementtext('./ISN_ORGANIZATION_CL', self.person), idpath = '/CARD/CADRE_ORGANIZATION_CL/*[starts-with(name(), "ISN_NODE")]')[0]
         return [Job(getelementtext('./EMPLOYMENTPLACE', j),
                     getelementtext('./CITY', j) if getelement('./CITY', j) else None,
                     getelementtext('./WORKPLACE', j) if getelement('./WORKPLACE', j) else None,
                     element2date('./ACCEPTANCE_DATE', j),
                     element2date('./DISCHARGE_DATE', j))
-                    for j in sorted(self.getelementbyid(self.judgeid, '/CARD/CADRE_LASTJOB/ISN_PERSON74'), key=partial(element2date, 'ACCEPTANCE_DATE'))] + [
-                        Job(getelementtext('./CLASSIF_NAME114', job_place),
+                    for j in sorted(self.getelementbyid(self.judgeid, '/CARD/CADRE_LASTJOB/*[starts-with(name(), "ISN_PERSON")]'), key=partial(element2date, 'ACCEPTANCE_DATE'))] + [
+                        Job(getelementtext('./*[starts-with(name(), "CLASSIF_NAME")]', job_place),
                             getelementtext('./ADDRESS', job_place),
-                            self.getelementtextbyid(getelementtext('./ISN_STAFF', j), '/CARD/CADRE_STAFF/ISN_NODE154', 'OFFICE_SHORT')[0] if getelement('./ISN_STAFF', j) else None,
+                            self.getelementtextbyid(getelementtext('./ISN_STAFF', j), '/CARD/CADRE_STAFF/*[starts-with(name(), "ISN_NODE")]', 'OFFICE_SHORT')[0] if getelement('./ISN_STAFF', j) else None,
                             element2date('./ASSIGNMENT_START_DATE', j),
                             element2date('./DISMISSION_DATE', j) if getelement('./DISMISSION_DATE', j) else
                             element2date('./ASSIGNMENT_END_DATE', j) if getelement('./ASSIGNMENT_END_DATE', j) else None)
-                            for j in sorted(self.tree.xpath('/CARD/CADRE_DISPLACEMENT[ISN_PERSON42="{}"][ISN_WORK42="{}"]'.format(self.judgeid, getelementtext('ISN_WORK174', self.job))),
+                            for j in sorted(self.tree.xpath('/CARD/CADRE_DISPLACEMENT[./*[starts-with(name(), "ISN_PERSON") and text()="{}"]]\
+                                                [./*[starts-with(name(), "ISN_WORK") and text()="{}"]]'.format(self.judgeid, getelementtext('*[starts-with(name(), "ISN_WORK")]', self.job))),
                                             key=partial(element2date, 'ASSIGNMENT_START_DATE'))]
                     
     def write_avatar(self, path):

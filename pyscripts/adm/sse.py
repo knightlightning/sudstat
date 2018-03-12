@@ -12,8 +12,9 @@ from datetime import datetime
 
 class SSEType(enum.Enum):
     info = 1
-    error = 2
-    system = 3
+    warning = 2
+    error = 3
+    system = 4
 
 def print_sse(type, msg):
     data = {'type': type.name, 'message': msg, 'timestamp': str(datetime.now())}

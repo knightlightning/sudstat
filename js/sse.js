@@ -18,18 +18,19 @@ function runSSE(script) {
 		var data = JSON.parse(event.data);
 		switch (data.type) {
 			case 'info':
-				//console.log(data.message);
 				appendLog('<p class="sseinfo">' + data.timestamp + ' ' + data.message + '</p>');
 				break;
 				
+			case 'warning':
+				appendLog('<p class="ssewarning">' + data.timestamp + ' ' + data.message + '</p>');
+				break;
+				
 			case 'error':
-				//console.log(data.message);
 				appendLog('<p class="sseerror">' + data.timestamp + ' ' + data.message + '</p>');
 				break;
 				
 			case 'system':
 				if ('END-OF-STREAM' == data.message) {
-					//console.log('closing...');
 			        source.close(); // stop retry
 			    }
 				break;

@@ -10,6 +10,7 @@ import os
 import sys
 from sqlalchemy import and_
 import judgefromxml
+import traceback
 sys.path.append('/usr/share/sudstat')
 from pyscripts.passdb import *
 from sse import *
@@ -99,7 +100,7 @@ for f in files:
         job_history = judge_xml.get_job_history()
             
     except Exception as e:
-        print_sse(SSEType.error, '{} cannot be imported. Invalid XML-schema format {}.'.format(judge_xml.get_surname(), e))
+        print_sse(SSEType.error, '{} cannot be imported. Invalid XML-schema format {}.'.format(judge_xml.get_surname(), traceback.format_exc()))
         continue
     
     # Deal with DB. Error possibility is not that high.
@@ -108,7 +109,7 @@ for f in files:
                                                   Judge.name == judge_db.name,
                                                   Judge.patron == judge_db.patron,
                                                   Judge.job_place_id == job_place.id)).all():
-            print_sse(SSEType.error, 'Judge {} ({}) already exists. Deleting...'.format(judge_db.surname, j.id))
+            print_sse(SSEType.warning, 'Judge {} ({}) already exists. Deleting...'.format(judge_db.surname, j.id))
             delete_judge(j.id)
 
         session.add(judge_db)
