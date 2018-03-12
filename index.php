@@ -126,7 +126,7 @@
                                 <td class="space" colspan="4"></td>
                             </tr>
                             <tr>
-                                <td class="title" colspan="4">Стаж на текущую дату</td>
+                                <td class="title" colspan="4">Стаж на текущую дату (<?php echo date("d.m.Y"); ?>)</td>
                             </tr>
                             <tr class="subtitle-top">
                                 <td></td>
