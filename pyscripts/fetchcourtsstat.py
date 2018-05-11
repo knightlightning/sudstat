@@ -8,6 +8,7 @@ Created on 9 нояб. 2017 г.
 import json
 from sudstatdb import *
 from jsonhelpers import *
+from conn import *
 
 class MyStatData:
     def __init__(self, stat_type):
@@ -19,7 +20,7 @@ def my_handler(x):
         return x.__dict__
     return enum_handler(x)
 
-session = get_session('mysql://passport-admin:Selkit2@localhost/sudstat?charset=utf8')
+session = get_session(sudstat)
 
 stat = session.query(StatData).join(StatData.stat_type).order_by(StatData.year.desc())
 

@@ -4,11 +4,12 @@ import cgi
 import json
 from passdb import *
 from jsonhelpers import *
+from conn import *
 
 data = cgi.FieldStorage()
 judge_id = data['judge_id'].value
 
-session = get_session('mysql://passport-admin:Selkit2@localhost/passport?charset=utf8')
+session = get_session(passport)
 
 judge = session.query(Judge).filter(Judge.id == judge_id).one()
 

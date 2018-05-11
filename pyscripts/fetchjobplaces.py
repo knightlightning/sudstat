@@ -3,8 +3,9 @@
 import json
 from passdb import *
 from jsonhelpers import *
+from conn import *
 
-session = get_session('mysql://passport-admin:Selkit2@localhost/passport?charset=utf8')
+session = get_session(passport)
 jobs = session.query(JobPlace).all()
 json_output = '{{"job_places":{}}}'.format(json.dumps([serialize(j) for j in jobs]))
 

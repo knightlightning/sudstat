@@ -12,12 +12,13 @@ from sudstatdb import *
 from sqlalchemy import and_
 import datetime
 import enum
+from conn import *
 
 data = cgi.FieldStorage()
 court_id = data['court_id'].value if 'court_id' in data else 1
 charge_type = data['charge_type'].value if 'charge_type' in data else 'adm'
 
-session = get_session('mysql://passport-admin:Selkit2@localhost/sudstat?charset=utf8')
+session = get_session(sudstat)
 
 class ChargeClasses(enum.Enum):
     adm = (AdmCharge, AdmChargeData, AdmStatType)

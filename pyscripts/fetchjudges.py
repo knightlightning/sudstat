@@ -4,12 +4,13 @@ import cgi
 import json
 from passdb import *
 from jsonhelpers import *
+from conn import *
 
 data = cgi.FieldStorage()
 court = data['court'].value
 court_type = data['type'].value
 
-session = get_session('mysql://passport-admin:Selkit2@localhost/passport?charset=utf8')
+session = get_session(passport)
 
 if court_type == 'mir':
     jobs = session.query(JobPlace.id).filter(JobPlace.name.like('_%в {}%'.format(court.split()[0][:-2]))).all()

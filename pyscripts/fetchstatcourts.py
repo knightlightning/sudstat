@@ -9,8 +9,9 @@ Created on 19 окт. 2017 г.
 import json
 from sudstatdb import *
 from jsonhelpers import *
+from conn import *
 
-session = get_session('mysql://passport-admin:Selkit2@localhost/sudstat?charset=utf8')
+session = get_session(sudstat)
 
 courts = session.query(Court).all()
     
