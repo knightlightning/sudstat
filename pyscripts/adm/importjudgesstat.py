@@ -12,6 +12,7 @@ import enum
 import sys
 sys.path.append('/usr/share/sudstat')
 from pyscripts.sudstatdb import *
+from pyscripts.conn import *
 from sse import *
 
 courts = [
@@ -57,7 +58,7 @@ courts = [
     ('firebird+fdb://sysdba:m@10.55.86.42:49152/C:/DATA/JUSTICE/UNI_WORK2003.GDB?charset=win1251','Шербакульский районный суд',[0,1,2])
 ]
 
-session = get_session('mysql://passport-admin:Selkit2@localhost/sudstat?charset=utf8')
+session = get_session(sudstat)
 curr_date = datetime.strptime(sys.argv[1], '%Y-%m-%d').date()
 
 class ProcudureType(enum.Enum):

@@ -13,6 +13,7 @@ from sqlalchemy import and_
 import sys
 sys.path.append('/usr/share/sudstat')
 from pyscripts.sudstatdb import *
+from pyscripts.conn import *
 
 file_path = '/usr/share/sudstat/resource/pdf'
 
@@ -22,7 +23,7 @@ year = data['year'].value
 quarter = data['quarter'].value
 myfile = data['file']
 
-session = get_session('mysql://passport-admin:Selkit2@localhost/sudstat?charset=utf8')
+session = get_session(sudstat)
 
 print("Content-type: text/html;charset=utf-8\n")
 

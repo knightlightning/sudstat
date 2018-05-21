@@ -13,6 +13,7 @@ import judgefromxml
 import traceback
 sys.path.append('/usr/share/sudstat')
 from pyscripts.passdb import *
+from pyscripts.conn import *
 from sse import *
 
 def get_job_place(name):
@@ -40,7 +41,7 @@ def delete_judge(_id):
             pass
     j.delete()
 
-session = get_session('mysql://passport-admin:Selkit2@localhost/passport?charset=utf8')
+session = get_session(passport)
 avatar_path = '/usr/share/sudstat/resource/img'
 mypath = {'obl': b'/srv/judges-xml/obl', 'rai': b'/srv/judges-xml/rai'}
 upload_date = datetime.now().date()
