@@ -172,7 +172,7 @@ class JudgeFromXml:
     def get_prev_assignment(self):
         for q in sorted(self.getelementbyid(self.judgeid, '/CARD/CADRE_DISPLACEMENT/*[starts-with(name(), "ISN_PERSON")]'), key=partial(element2date, 'ASSIGNMENT_START_DATE'), reverse=True):
             return Assignment(element2date('ASSIGNMENT_START_DATE', q),
-                              getelementtext('ASSIGNMENT', q))
+                              getelementtext('ASSIGNMENT', q) if getelement('ASSIGNMENT', q) else None)
 
     def get_job_history(self):
         job_place = self.getelementbyid(id = getelementtext('./ISN_ORGANIZATION_CL', self.person), idpath = '/CARD/CADRE_ORGANIZATION_CL/*[starts-with(name(), "ISN_NODE")]')[0]
