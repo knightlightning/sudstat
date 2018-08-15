@@ -20,7 +20,7 @@ CREATE TABLE judges (
 	qualifier_class_name TEXT CHARACTER SET UTF8,
 	qualifier_class_reason TEXT CHARACTER SET UTF8,
 	qualifier_class_date DATE,
-	assignment_order TEXT CHARACTER SET UTF8 NOT NULL,
+	assignment_order TEXT CHARACTER SET UTF8,
 	assignment_date DATE NOT NULL,
 	previous_judge_exp_years INT NOT NULL,
 	previous_judge_exp_months INT NOT NULL,

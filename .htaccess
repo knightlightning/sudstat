@@ -3,3 +3,4 @@ DirectoryIndex index.php index.html
 #RewriteEngine On
 #RewriteRule ^index.html$ index.php
 
+AddHandler application/x-httpd-php .html .php .htm
