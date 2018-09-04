@@ -29,10 +29,10 @@ $(document).on('hide.bs.collapse', '.collapse', function () {
 
 function fetchCourts() {
     $.ajax({
-        url: '/cgi-bin/fetchchargecourts.py',
+        url: '/wsgi-bin/fetchchargecourts',
         processData: false,
         contentType: false,
-        type: 'POST',
+        type: 'GET',
         success: function (data) {
             fillCourts(data);
         }
@@ -65,7 +65,7 @@ function fetchJudgesCharge(c, type) {
     data.append('court_id', c);
     data.append('charge_type', type);
     $.ajax({
-        url: '/cgi-bin/fetchchargestat.py',
+        url: '/wsgi-bin/fetchchargestat',
         data: data,
         processData: false,
         contentType: false,

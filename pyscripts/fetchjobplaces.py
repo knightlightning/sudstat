@@ -5,10 +5,10 @@ from passdb import *
 from jsonhelpers import *
 from conn import *
 
-session = get_session(passport)
-jobs = session.query(JobPlace).all()
-json_output = '{{"job_places":{}}}'.format(json.dumps([serialize(j) for j in jobs]))
-
-print("Content-type: text/html;charset=utf-8\n")
-print(json_output)
-
+def application(environ, start_response):
+    session = get_session(passport)
+    jobs = session.query(JobPlace).all()
+    json_output = '{{"job_places":{}}}'.format(json.dumps([serialize(j) for j in jobs]))
+    
+    start_response('200 OK', [('Content-Type', 'text/html')])
+    return [json_output.encode('utf_8')]

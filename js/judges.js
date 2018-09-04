@@ -4,10 +4,10 @@ $(document).ready(function () {
         setSelection();
     } else {
         $.ajax({
-            url: '/cgi-bin/fetchjobplaces.py',
+            url: '/wsgi-bin/fetchjobplaces',
             processData: false,
             contentType: false,
-            type: 'POST',
+            type: 'GET',
             success: function (data) {
                 fillCourts(data);
                 setSelection();
@@ -99,7 +99,7 @@ function fetchJudges(court, type) {
     data.append('court', court);
     data.append('type', type);
     $.ajax({
-        url: '/cgi-bin/fetchjudges.py',
+        url: '/wsgi-bin/fetchjudges',
         data: data,
         processData: false,
         contentType: false,
@@ -147,7 +147,7 @@ function fetchJudgeInfo(id) {
     var data = new FormData();
     data.append('judge_id', id);
     $.ajax({
-        url: '/cgi-bin/fetchjudgeinfo.py',
+        url: '/wsgi-bin/fetchjudgeinfo',
         data: data,
         processData: false,
         contentType: false,

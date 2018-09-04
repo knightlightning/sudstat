@@ -11,10 +11,10 @@ $(document).ready(function () {
 
 function fetchStat() {
     $.ajax({
-        url: '/cgi-bin/fetchcourtsstat.py',
+        url: '/wsgi-bin/fetchcourtsstat',
         processData: false,
         contentType: false,
-        type: 'POST',
+        type: 'GET',
         success: function (data) {
             fillStat(data);
         }
