@@ -5,10 +5,16 @@ from passdb import *
 from jsonhelpers import *
 from conn import *
 
-def application(environ, start_response):
+from flask import Flask
+application = Flask(__name__)
+
+@application.route("/wsgi-bin/fetchjobplaces")
+def app():
     session = get_session(passport)
     jobs = session.query(JobPlace).all()
     json_output = '{{"job_places":{}}}'.format(json.dumps([serialize(j) for j in jobs]))
     
-    start_response('200 OK', [('Content-Type', 'text/html')])
-    return [json_output.encode('utf_8')]
+    return json_output
+
+if __name__ == "__main__":
+    application.run()

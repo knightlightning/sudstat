@@ -65,11 +65,10 @@ function fetchJudgesCharge(c, type) {
     data.append('court_id', c);
     data.append('charge_type', type);
     $.ajax({
-        url: '/wsgi-bin/fetchchargestat',
-        data: data,
+        url: `/wsgi-bin/fetchchargestat/${c}/${type}`,
         processData: false,
         contentType: false,
-        type: 'POST',
+        type: 'GET',
         success: function (data) {
             fillJudgesCharge(data);
         }

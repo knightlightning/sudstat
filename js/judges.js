@@ -95,15 +95,11 @@ function fillCourts(data) {
 }
 
 function fetchJudges(court, type) {
-    var data = new FormData();
-    data.append('court', court);
-    data.append('type', type);
     $.ajax({
-        url: '/wsgi-bin/fetchjudges',
-        data: data,
+        url: `/wsgi-bin/fetchjudges/${court}/${type}`,
         processData: false,
         contentType: false,
-        type: 'POST',
+        type: 'GET',
         success: function (data) {
             fillJudges(data);
         }
@@ -144,14 +140,11 @@ function fillJudges(data) {
 }
 
 function fetchJudgeInfo(id) {
-    var data = new FormData();
-    data.append('judge_id', id);
     $.ajax({
-        url: '/wsgi-bin/fetchjudgeinfo',
-        data: data,
+        url: `/wsgi-bin/fetchjudgeinfo/${id}`,
         processData: false,
         contentType: false,
-        type: 'POST',
+        type: 'GET',
         success: function (data) {
             fillJudgeInfo(data);
         }

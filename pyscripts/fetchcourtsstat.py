@@ -20,7 +20,11 @@ def my_handler(x):
         return x.__dict__
     return enum_handler(x)
 
-def application(environ, start_response):
+from flask import Flask
+application = Flask(__name__)
+
+@application.route("/wsgi-bin/fetchcourtsstat", methods=['GET'])
+def app():
     session = get_session(sudstat)
     
     stat = session.query(StatData).join(StatData.stat_type).order_by(StatData.year.desc())
@@ -32,5 +36,7 @@ def application(environ, start_response):
         res[s.stat_type.type].stat_data.append({'year':s.year,'mod':s.quarter,'data':s.data})
     
     json_output = json.dumps({'data':list(res.values())}, default=my_handler)
-    start_response('200 OK', [('Content-Type', 'text/html')])
-    return [json_output.encode('utf_8')]
+    return json_output
+
+if __name__ == "__main__":
+    application.run()

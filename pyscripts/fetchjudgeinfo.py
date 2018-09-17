@@ -6,10 +6,11 @@ from passdb import *
 from jsonhelpers import *
 from conn import *
 
-def application(environ, start_response):
-    data = cgi.FieldStorage(fp=environ['wsgi.input'], environ=environ, keep_blank_values=True)
-    judge_id = data['judge_id'].value
-    
+from flask import Flask
+application = Flask(__name__)
+
+@application.route("/wsgi-bin/fetchjudgeinfo/<judge_id>", methods=['GET'])
+def app(judge_id):
     session = get_session(passport)
     
     judge = session.query(Judge).filter(Judge.id == judge_id).one()
@@ -20,7 +21,8 @@ def application(environ, start_response):
     json.dumps([serialize(a) for a in judge.awards], default=datetime_handler) if judge.awards else '[]',
     json.dumps([serialize(e) for e in judge.educations], default=datetime_handler) if judge.educations else '[]',
     json.dumps([serialize(j) for j in judge.jobs], default=datetime_handler) if judge.jobs else '[]')
+
+    return json_output
     
-    start_response('200 OK', [('Content-Type', 'text/html')])
-    return [json_output.encode('utf_8')]
-    
+if __name__ == "__main__":
+    application.run()

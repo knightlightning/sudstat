@@ -18,4 +18,4 @@ class SSEType(enum.Enum):
 
 def print_sse(type, msg):
     data = {'type': type.name, 'message': msg, 'timestamp': str(datetime.now())}
-    print('data: {}\n'.format(json.dumps(data)), flush=True)
+    return 'data: {}\n\n'.format(json.dumps(data))

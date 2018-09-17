@@ -11,7 +11,11 @@ from sudstatdb import *
 from jsonhelpers import *
 from conn import *
 
-def application(environ, start_response):
+from flask import Flask
+application = Flask(__name__)
+
+@application.route("/wsgi-bin/fetchchargecourts", methods=['GET'])
+def app():
     session = get_session(sudstat)
     
     courts = session.query(Court).all()
@@ -25,5 +29,7 @@ def application(environ, start_response):
     
     json_output = '{{"courts":{}}}'.format(json.dumps([serialize(c) for c in res]))
     
-    start_response('200 OK', [('Content-Type', 'text/html')])
-    return [json_output.encode('utf_8')]
+    return json_output
+
+if __name__ == "__main__":
+    application.run()
