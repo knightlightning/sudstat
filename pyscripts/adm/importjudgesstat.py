@@ -23,7 +23,7 @@ courts = [
     ('firebird+fdb://sysdba:m@10.55.51.42:49152/D:/DATA/JUSTICE/UNI_WORK2003.GDB?charset=win1251','Октябрьский районный суд',[0,1,2]),
     ('firebird+fdb://sysdba:masterkey@10.55.54.42:49152/C:/DATA/JUSTICE/UNI_WORK2003.GDB?charset=win1251','Центральный районный суд',[0,1,2]),
     ('firebird+fdb://sysdba:m@10.55.53.42:49152/C:/DATA/JUSTICE/UNI_WORK2003.GDB?charset=win1251','Советский районный суд',[0,1,2]),
-    ('firebird+fdb://sysdba:1@10.55.52.42:49152/C:/DATA/JUSTICE/UNI_WORK2003.GDB?charset=win1251','Первомайский районный суд',[0,1,2]),
+    ('firebird+fdb://sysdba:1@10.55.52.42:49152/E:/DATA/JUSTICE/UNI_WORK2003.GDB?charset=win1251','Первомайский районный суд',[0,1,2]),
     ('firebird+fdb://sysdba:masterkey@10.55.55.42:49152/C:/DATA/JUSTICE/UNI_WORK2003.GDB?charset=win1251','Азовский районный суд',[0,1,2]),
     ('firebird+fdb://sysdba:m@10.55.56.42:49152/C:/DATA/JUSTICE/UNI_WORK2003.GDB?charset=win1251','Большереченский районный суд',[0,1,2]),
     ('firebird+fdb://sysdba:masterkey@10.55.57.42:49152/C:/DATA/JUSTICE/UNI_WORK2003.GDB?charset=win1251','Большеуковский районный суд',[0,1,2]),
@@ -115,8 +115,8 @@ GROUP BY row_id, column_id'''.format(curr_date.year, curr_date)
     session = get_session(sudstat)
     
     for court in courts:
-        #if 'Куйбышевский' not in court[1]:
-            #continue
+#        if 'Первомайский' not in court[1]:
+#            continue
         yield print_sse(SSEType.info, 'Court "{}" is being processed...'.format(court[1]))
         try:
             engine = create_engine(court[0], pool_timeout=300)

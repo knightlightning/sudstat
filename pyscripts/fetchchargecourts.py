@@ -6,7 +6,7 @@ Created on 7 нояб. 2017 г.
 @author: kmironov
 '''
 
-import json
+from json import dumps
 from sudstatdb import *
 from jsonhelpers import *
 from conn import *
@@ -27,7 +27,7 @@ def app():
            session.query(CrimCharge).filter(CrimCharge.court_id == c.id).count() > 0:
               res.append(c)
     
-    json_output = '{{"courts":{}}}'.format(json.dumps([serialize(c) for c in res]))
+    json_output = '{{"courts":{}}}'.format(dumps([serialize(c) for c in res]))
     
     return json_output
 

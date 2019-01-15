@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import json
+from json import dumps
 from passdb import *
 from jsonhelpers import *
 from conn import *
@@ -18,7 +18,7 @@ def app(court, court_type):
         jobs = session.query(JobPlace.id).filter(JobPlace.name.like('{}%'.format(court))).all()
     
     judges = sorted(session.query(Judge).filter(Judge.job_place_id.in_(jobs)).order_by(Judge.surname, Judge.name).all())
-    json_output = '{{"judges":{}}}'.format(json.dumps([serialize(j) for j in judges], default=datetime_handler))
+    json_output = '{{"judges":{}}}'.format(dumps([serialize(j) for j in judges], default=datetime_handler))
 
     return json_output
 

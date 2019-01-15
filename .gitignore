@@ -2,3 +2,6 @@ nbproject/
 resource/
 .project
 .pydevproject
+.dbeaver-data-sources.xml
+pyscripts/__pycache__/
+pyscripts/adm/__pycache__/

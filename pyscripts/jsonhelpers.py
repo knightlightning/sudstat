@@ -4,7 +4,7 @@ Created on 4 окт. 2017 г.
 @author: kmironov
 '''
 
-import datetime
+from datetime import date
 from sqlalchemy.orm import class_mapper
 import enum
 
@@ -14,7 +14,7 @@ def serialize(model):
     return dict((c, getattr(model, c)) for c in columns)
  
 def datetime_handler(x):
-    if isinstance(x, datetime.date):
+    if isinstance(x, date):
         return x.isoformat()
     raise TypeError("Unknown type")
 

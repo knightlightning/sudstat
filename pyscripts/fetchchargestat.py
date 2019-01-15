@@ -6,11 +6,11 @@ Created on 20 окт. 2017 г.
 @author: kmironov
 '''
 
-import json
+from json import dumps
+import enum
+from datetime import date
 from sudstatdb import *
 from sqlalchemy import and_
-import datetime
-import enum
 from conn import *
 
 from flask import Flask
@@ -18,10 +18,6 @@ application = Flask(__name__)
 
 @application.route("/wsgi-bin/fetchchargestat/<court_id>/<charge_type>", methods=['GET'])
 def app(court_id, charge_type):
-    #data = cgi.FieldStorage(fp=environ['wsgi.input'], environ=environ, keep_blank_values=True)
-    #court_id = data['court_id'].value if 'court_id' in data else 1
-    #charge_type = data['charge_type'].value if 'charge_type' in data else 'adm'
-    
     session = get_session(sudstat)
     
     class ChargeClasses(enum.Enum):
@@ -51,7 +47,7 @@ def app(court_id, charge_type):
             j.stat.append(stat)
     
     def my_handler(x):
-        if isinstance(x, datetime.date):
+        if isinstance(x, date):
             return x.isoformat()
         if isinstance(x, Charge) or isinstance(x, JudgeCharge):
             return x.__dict__
@@ -84,7 +80,7 @@ def app(court_id, charge_type):
     stat_columns = [x.description for x in session.query(charge_stat_cls.description).order_by(charge_stat_cls.col_number).all()]
     data = sorted(list(res.values()), key=lambda x: x.year, reverse=True)
         
-    json_output = '{}'.format(json.dumps({'stat_columns':stat_columns, 'data':data}, default=my_handler))
+    json_output = '{}'.format(dumps({'stat_columns':stat_columns, 'data':data}, default=my_handler))
     
     return json_output
 

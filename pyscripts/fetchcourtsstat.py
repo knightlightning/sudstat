@@ -1,11 +1,12 @@
 #!/usr/bin/python3
+
 '''
 Created on 9 нояб. 2017 г.
 
 @author: kmironov
 '''
 
-import json
+from json import dumps
 from sudstatdb import *
 from jsonhelpers import *
 from conn import *
@@ -35,7 +36,7 @@ def app():
             res[s.stat_type.type] = MyStatData(s.stat_type.type)
         res[s.stat_type.type].stat_data.append({'year':s.year,'mod':s.quarter,'data':s.data})
     
-    json_output = json.dumps({'data':list(res.values())}, default=my_handler)
+    json_output = dumps({'data':list(res.values())}, default=my_handler)
     return json_output
 
 if __name__ == "__main__":

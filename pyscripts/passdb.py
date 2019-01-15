@@ -6,9 +6,8 @@ Created on 3 окт. 2017 г.
 
 from sqlalchemy import Column, ForeignKey, Integer, Text, Date, VARCHAR
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
  
