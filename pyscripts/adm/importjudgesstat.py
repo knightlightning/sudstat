@@ -104,7 +104,7 @@ FROM g1_aq_cases_1('{}-01-01', '{}', '[P1]')
 WHERE row_id <> 0 AND row_id <> -1
 GROUP BY row_id, column_id'''.format(curr_date.year, curr_date)
         civ = '''SELECT row_id, column_id, count(*)
-FROM g1_aq_total_finish_1('{}-01-01', '{}')
+FROM g1_aq_total_finish_1('{}-01-01', '{}', 1)
 WHERE row_id <> 0 AND row_id <> -1
 GROUP BY row_id, column_id'''.format(curr_date.year, curr_date)
         crim = '''SELECT row_id, column_id, count(*)
@@ -115,11 +115,11 @@ GROUP BY row_id, column_id'''.format(curr_date.year, curr_date)
     session = get_session(sudstat)
     
     for court in courts:
-#        if 'Первомайский' not in court[1]:
+#        if 'Называевский' not in court[1]:
 #            continue
         yield print_sse(SSEType.info, 'Court "{}" is being processed...'.format(court[1]))
         try:
-            engine = create_engine(court[0], pool_timeout=300)
+            engine = create_engine(court[0], pool_timeout=10)
             with engine.connect() as remote_conn:
                 court_id = session.query(Court.id).filter(Court.name == court[1]).one().id
                 for proc in [ProcudureType(i).name for i in court[2]]:
