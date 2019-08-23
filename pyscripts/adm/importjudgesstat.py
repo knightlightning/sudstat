@@ -53,7 +53,7 @@ courts = [
     ('firebird+fdb://sysdba:m@10.55.81.42:49152/C:/DATA/JUSTICE/UNI_WORK2003.GDB?charset=win1251','Тарский городской суд',[0,1,2]),
     ('firebird+fdb://sysdba:m@10.55.82.42:49152/C:/DATA/JUSTICE/UNI_WORK2003.GDB?charset=win1251','Тевризский районный суд',[0,1,2]),
     ('firebird+fdb://sysdba:m@10.55.83.42:49152/C:/DATA/JUSTICE/UNI_WORK2003.GDB?charset=win1251','Тюкалинский городской суд',[0,1,2]),
-    ('firebird+fdb://sysdba:masterkey@10.55.84.42:49152/C:/DATA/JUSTICE/UNI_WORK2003.GDB?charset=win1251','Усть-Ишимский районный суд',[0,1,2]),
+    ('firebird+fdb://sysdba:m@10.55.84.42:49152/C:/DATA/JUSTICE/UNI_WORK2003.GDB?charset=win1251','Усть-Ишимский районный суд',[0,1,2]),
     ('firebird+fdb://sysdba:m@10.55.85.42:49152/C:/DATA/JUSTICE/UNI_WORK2003.GDB?charset=win1251','Черлакский районный суд',[0,1,2]),
     ('firebird+fdb://sysdba:m@10.55.86.42:49152/C:/DATA/JUSTICE/UNI_WORK2003.GDB?charset=win1251','Шербакульский районный суд',[0,1,2])
 ]
@@ -113,7 +113,7 @@ WHERE row_id <> 0 AND row_id <> -1
 GROUP BY row_id, column_id'''.format(curr_date.year, curr_date)
 
     session = get_session(sudstat)
-    
+
     for court in courts:
 #        if 'Называевский' not in court[1]:
 #            continue
@@ -124,7 +124,7 @@ GROUP BY row_id, column_id'''.format(curr_date.year, curr_date)
                 court_id = session.query(Court.id).filter(Court.name == court[1]).one().id
                 for proc in [ProcudureType(i).name for i in court[2]]:
                     yield print_sse(SSEType.info, 'Procedure "{}" is being processed...'.format(proc))
-                    try: 
+                    try:
                         res = remote_conn.execute(ChargeQueries.getValueByKeyName(proc))
                         chargeCls, chargeDataCls, chargeStatTypeCls = ChargeClasses.getValueByKeyName(proc)
                         charge = getCharge(court_id, chargeCls, curr_date, session)
@@ -147,7 +147,7 @@ GROUP BY row_id, column_id'''.format(curr_date.year, curr_date)
                 yield print_sse(SSEType.info, 'Court "{}" has been processed!'.format(court[1]))
         except Exception as e:
             yield print_sse(SSEType.error, 'There\'s error while handling "{}" court: {}'.format(court[1], e))
-    
+
     yield print_sse(SSEType.info, 'Everything is done.')
     yield print_sse(SSEType.system, 'END-OF-STREAM')
 
